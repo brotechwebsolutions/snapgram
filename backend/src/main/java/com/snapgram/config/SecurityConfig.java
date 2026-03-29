@@ -35,22 +35,38 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+
+            // ✅ ENABLE CORS
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints — no token needed
+
+                // ✅ VERY IMPORTANT → allow preflight requests
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                // Public endpoints
                 .requestMatchers("/api/auth/signup", "/api/auth/login",
-                    "/api/auth/forgot-password", "/api/auth/reset-password",
-                    "/api/auth/verify-email").permitAll()
+                        "/api/auth/forgot-password", "/api/auth/reset-password",
+                        "/api/auth/verify-email").permitAll()
+
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/posts/explore", "/api/posts/{id}",
-                    "/api/users/search", "/api/users/by-username/**").permitAll()
-                // Everything else requires authentication
+
+                .requestMatchers(HttpMethod.GET,
+                        "/api/posts/explore",
+                        "/api/posts/{id}",
+                        "/api/users/search",
+                        "/api/users/by-username/**").permitAll()
+
+                // Secure everything else
                 .anyRequest().authenticated()
             )
+
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -58,21 +74,27 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow the deployed frontend URL + localhost for development
+        // ✅ IMPORTANT → exact frontend URL
         config.setAllowedOrigins(List.of(
-            frontendUrl,                    // e.g. https://snapgram.vercel.app
-            "http://localhost:5173",         // Vite dev server
-            "http://localhost:3000"          // CRA dev server (just in case)
+                "https://snapgram-taupe-beta.vercel.app", // 🔥 your live frontend
+                "http://localhost:5173",
+                "http://localhost:3000"
         ));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"
+        ));
+
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization"));
         config.setAllowCredentials(true);
-        config.setMaxAge(3600L);  // Cache preflight for 1 hour
+
+        // cache preflight
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return source;
     }
 
