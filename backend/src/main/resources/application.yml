@@ -1,0 +1,63 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: snapgram
+      auto-index-creation: false   # We create indexes manually in MongoConfig
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# JWT settings
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000       # 24 hours in ms
+  refresh-expiration: 604800000  # 7 days in ms
+
+# Cloudinary image storage
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
+
+# App URLs
+app:
+  frontend-url: ${FRONTEND_URL}
+  base-url: ${BASE_URL:http://localhost:8080}
+
+# Actuator — only expose health endpoint publicly
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+# Logging — reduce noise in production
+logging:
+  level:
+    root: WARN
+    com.snapgram: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+    org.springframework.data.mongodb: WARN

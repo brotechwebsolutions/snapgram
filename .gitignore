@@ -1,0 +1,44 @@
+# ── Backend ───────────────────────────────────────────────────
+backend/target/
+backend/.env
+backend/.env.local
+*.jar
+*.war
+*.class
+
+# Maven wrapper (optional — commit if you want to use ./mvnw)
+# .mvn/
+# mvnw
+# mvnw.cmd
+
+# ── Frontend ──────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ── IDE ───────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
