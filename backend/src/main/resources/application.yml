@@ -3,7 +3,8 @@ spring:
     mongodb:
       uri: ${MONGODB_URI}
       database: snapgram
-      auto-index-creation: false   # We create indexes manually in MongoConfig
+      auto-index-creation: false
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -15,6 +16,7 @@ spring:
       mail.smtp.starttls.required: true
       mail.smtp.connectiontimeout: 10000
       mail.smtp.timeout: 10000
+
   servlet:
     multipart:
       max-file-size: 10MB
@@ -26,24 +28,24 @@ server:
     include-message: always
     include-binding-errors: always
 
-# JWT settings
+# JWT
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86400000       # 24 hours in ms
-  refresh-expiration: 604800000  # 7 days in ms
+  expiration: 86400000
+  refresh-expiration: 604800000
 
-# Cloudinary image storage
+# Cloudinary
 cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME}
   api-key: ${CLOUDINARY_API_KEY}
   api-secret: ${CLOUDINARY_API_SECRET}
 
-# App URLs
+# App URLs (FIXED ✅)
 app:
-  frontend-url: ${FRONTEND_URL}
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
   base-url: ${BASE_URL:http://localhost:8080}
 
-# Actuator — only expose health endpoint publicly
+# Actuator
 management:
   endpoints:
     web:
@@ -53,7 +55,7 @@ management:
     health:
       show-details: never
 
-# Logging — reduce noise in production
+# Logging
 logging:
   level:
     root: WARN
