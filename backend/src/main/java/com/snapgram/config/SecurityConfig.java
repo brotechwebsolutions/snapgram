@@ -44,7 +44,7 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // ✅ VERY IMPORTANT → allow preflight requests
+                // ✅ VERY IMPORTANT (THIS FIXES YOUR ISSUE)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // Public endpoints
