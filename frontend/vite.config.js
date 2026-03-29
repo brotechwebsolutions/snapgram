@@ -11,6 +11,8 @@ export default defineConfig(({ mode }) => {
     : "http://localhost:8080";
 
   return {
+    base: "/", // 🔥 MUST FIX FOR MOBILE + VERCEL
+
     plugins: [react()],
 
     // Development server with proxy
@@ -34,25 +36,23 @@ export default defineConfig(({ mode }) => {
     // Production build
     build: {
       outDir: "dist",
-      sourcemap: false,          // Disable for smaller bundle
+      sourcemap: false, // smaller bundle
       minify: "esbuild",
       target: "es2020",
       rollupOptions: {
         output: {
-          // Split vendor chunks for better caching
           manualChunks: {
-            "react-vendor":  ["react", "react-dom", "react-router-dom"],
-            "ui-vendor":     ["react-icons", "react-hot-toast"],
-            "util-vendor":   ["axios", "date-fns"],
-            "stomp-vendor":  ["@stomp/stompjs"],
+            "react-vendor": ["react", "react-dom", "react-router-dom"],
+            "ui-vendor": ["react-icons", "react-hot-toast"],
+            "util-vendor": ["axios", "date-fns"],
+            "stomp-vendor": ["@stomp/stompjs"],
           },
         },
       },
-      // Warn if any chunk is > 1MB
       chunkSizeWarningLimit: 1000,
     },
 
-    // Define global constants
+    // Global constants
     define: {
       __APP_VERSION__: JSON.stringify("1.0.0"),
     },
