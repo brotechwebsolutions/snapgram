@@ -4,6 +4,13 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
 
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://snapgram-htzx.onrender.com/api/$1"
+    }
+  ],
+
   "routes": [
     {
       "src": "^/api/(.*)",
