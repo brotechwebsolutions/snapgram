@@ -4,18 +4,18 @@
   "outputDirectory": "dist",
   "installCommand": "npm install",
 
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://snapgram-htzx.onrender.com/api/$1"
+      "src": "^/api/(.*)",
+      "dest": "https://snapgram-htzx.onrender.com/api/$1"
     },
     {
-      "source": "/ws/(.*)",
-      "destination": "https://snapgram-htzx.onrender.com/ws/$1"
+      "src": "^/ws/(.*)",
+      "dest": "https://snapgram-htzx.onrender.com/ws/$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
 
